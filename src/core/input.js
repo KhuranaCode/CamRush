@@ -7,7 +7,7 @@ export class Input {
     this.mode = 'camera'; // 'camera' | 'mouse'
     canvas.addEventListener('pointermove', (e) => { const m = this.mouse; m.px = m.x; m.py = m.y; m.x = e.clientX; m.y = e.clientY; m.active = performance.now(); });
     window.addEventListener('pointermove', (e) => { const m = this.mouse; m.px = m.x; m.py = m.y; m.x = e.clientX; m.y = e.clientY; m.active = performance.now(); });
-    window.addEventListener('pointerdown', () => { this.mouse.down = true; });
+    window.addEventListener('pointerdown', (e) => { const m = this.mouse; m.px = e.clientX; m.py = e.clientY; m.x = e.clientX; m.y = e.clientY; m.active = performance.now(); m.down = true; });
     window.addEventListener('pointerup', () => { this.mouse.down = false; });
     window.addEventListener('keydown', (e) => { if (!this.keys.has(e.code)) this.pressedOnce.add(e.code); this.keys.add(e.code); });
     window.addEventListener('keyup', (e) => { this.keys.delete(e.code); });
