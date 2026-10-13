@@ -1,0 +1,13 @@
+import FruitSlash from './fruit.js';
+import SkyFlap from './flap.js';
+import FaceChomp from './chomp.js';
+import BubbleBurst from './bubbles.js';
+import RPS from './rps.js';
+import LeanRush from './lean.js';
+import MoleSmash from './mole.js';
+import NeonPong from './pong.js';
+import BrickBreaker from './bricks.js';
+import StarBlaster from './blaster.js';
+import TargetBlitz from './target.js';
+import NeonBeats from './beats.js';
+export const games = [FruitSlash, SkyFlap, BubbleBurst, FaceChomp, LeanRush, RPS, MoleSmash, NeonPong, BrickBreaker, StarBlaster, TargetBlitz, NeonBeats];
