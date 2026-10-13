@@ -10,4 +10,5 @@ import BrickBreaker from './bricks.js';
 import StarBlaster from './blaster.js';
 import TargetBlitz from './target.js';
 import NeonBeats from './beats.js';
-export const games = [FruitSlash, SkyFlap, BubbleBurst, FaceChomp, LeanRush, RPS, MoleSmash, NeonPong, BrickBreaker, StarBlaster, TargetBlitz, NeonBeats];
+import GoalRush from './keeper.js';
+export const games = [FruitSlash, SkyFlap, BubbleBurst, FaceChomp, LeanRush, RPS, MoleSmash, NeonPong, BrickBreaker, StarBlaster, TargetBlitz, NeonBeats, GoalRush];
