@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: mananbharti/CamRush
-          ref: 74760c2aba41480d44127d4a370a38400ef61243
+          ref: 2a33f352d241b09be82bfaf18202bf4fc96e7513
           path: app
           fetch-depth: 1
       - uses: actions/setup-node@v4
