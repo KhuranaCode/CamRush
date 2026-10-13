@@ -1,0 +1,47 @@
+name: preview
+on:
+  push:
+    branches: [preview-bootstrap]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: boot
+      - uses: actions/checkout@v4
+        with:
+          repository: mananbharti/CamRush
+          ref: 74760c2
+          path: app
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Apply reviewed patch
+        working-directory: app
+        run: |
+          PATCH=$(ls ../boot/*perf.patch | head -1); echo using $PATCH; git apply --check "$PATCH"
+          git apply "$PATCH"
+          git -c user.name=KhuranaCode -c user.email=KhuranaCode@users.noreply.github.com add -A
+          git -c user.name=KhuranaCode -c user.email=KhuranaCode@users.noreply.github.com commit -m "Performance + UI pass, paged menu, 4 new games (Snake Surge, Tower Stack, Sky Juggle, Meteor Dodge)"
+      - name: Push feature branch to this fork
+        working-directory: app
+        run: git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:refs/heads/perf-ui-and-4-new-games
+      - name: Build
+        working-directory: app
+        run: |
+          npm install
+          npm run check
+          npm run build
+      - name: Publish test build to gh-pages
+        working-directory: app/dist
+        run: |
+          touch .nojekyll
+          git init -q -b gh-pages
+          git -c user.name=KhuranaCode -c user.email=KhuranaCode@users.noreply.github.com add -A
+          git -c user.name=KhuranaCode -c user.email=KhuranaCode@users.noreply.github.com commit -q -m "Test build of perf-ui-and-4-new-games"
+          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:refs/heads/gh-pages
