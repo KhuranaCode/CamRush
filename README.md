@@ -1,6 +1,6 @@
 # CamRush
 
-Camera-controlled arcade for Tech Utsav. Twelve games, all played with your hands, face or head - no controller.
+Camera-controlled arcade for Tech Utsav. Thirteen games, all played with your hands, face or head - no controller.
 
 | Game | Control |
 |---|---|
@@ -16,6 +16,7 @@ Camera-controlled arcade for Tech Utsav. Twelve games, all played with your hand
 | Star Blaster | Hand flies the ship, pinch = nova bomb |
 | Target Blitz | Point to aim, pinch to fire |
 | Neon Beats | Rhythm game: touch the notes at the line |
+| Goal Rush | Keeper mode: block every shot with both hands; gold balls score triple |
 
 ## Setup (one time, needs internet)
 
