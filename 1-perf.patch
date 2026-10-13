@@ -1,8 +1,8 @@
 From 0cbb390f236172fc651f543c30157dd2ea8899e7 Mon Sep 17 00:00:00 2001
 From: KhuranaCode <x@x>
 Date: Tue, 13 Oct 2026 23:27:24 +0530
-Subject: [PATCH] Performance + UI pass, paged menu, 4 new games (Snake Surge,
- Tower Stack, Sky Juggle, Meteor Dodge)
+Subject: [PATCH 1/2] Performance + UI pass, paged menu, 4 new games (Snake
+ Surge, Tower Stack, Sky Juggle, Meteor Dodge)
 
 ---
  README.md           |  10 ++++-
@@ -787,6 +787,185 @@ index 861718f..51712f4 100644
 +.card, .grid.many .card { padding:16px 22px; }
 +.card p, .grid.many .card p { -webkit-line-clamp:2; min-height:2.8em; }
 +@media (max-height:820px) { .hero p { display:none !important; } .hero { margin:0 0 1vh; } .hero h2 { font-size:38px; } }
+-- 
+2.34.1
+
+
+From 9f41e44264d485cf611b18a847384417e21ac501 Mon Sep 17 00:00:00 2001
+From: Instinct Agent <agent@instinct.com>
+Date: Tue, 13 Oct 2026 23:55:10 +0530
+Subject: [PATCH 2/2] Phone UI, touch controls, synth music and startup chime
+
+---
+ src/core/app.js   | 13 ++++++++++---
+ src/core/audio.js | 32 +++++++++++++++++++++++++++++++-
+ src/core/input.js |  2 +-
+ src/style.css     | 41 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 83 insertions(+), 5 deletions(-)
+
+diff --git a/src/core/app.js b/src/core/app.js
+index 83e62ac..66170ae 100644
+--- a/src/core/app.js
++++ b/src/core/app.js
+@@ -25,6 +25,9 @@ export class App {
+     this.bloomC = document.createElement('canvas'); this.bloomX = this.bloomC.getContext('2d');
+     this.stars = Array.from({ length: 90 }, () => ({ x: Math.random(), y: Math.random(), z: Math.random() * 0.8 + 0.2, p: Math.random() * 6 }));
+     this.wipe = document.getElementById('wipe');
++    this.canvas.addEventListener('pointerdown', (e) => { const u = this.hudU || 1; if ((this.state === 'play' || this.state === 'countdown') && e.clientX < 170 * u && e.clientY < 74 * u) { this.snd.click(); this.toMenu(); } });
++    if (matchMedia('(pointer:coarse)').matches) { const b = document.getElementById('btn-mouse'); if (b) b.textContent = 'No camera? Play with touch'; }
++    window.addEventListener('pointerdown', () => this.snd.ensure(), { passive: true });
+     this.applyQuality(); this.resize(); addEventListener('resize', () => this.resize());
+     this.page = 0; this.per = 6; this._els = []; this._elsT = -1e9; this.lockEl = null;
+     addEventListener('wheel', (e) => { if (this.state === 'menu') this.setPage(this.page + (e.deltaY > 0 ? 1 : -1)); }, { passive: true });
+@@ -145,12 +148,13 @@ export class App {
+   setOverlay(id, on) { document.getElementById(id).classList.toggle('show', on); }
+   toMenu() { if (this.state === 'splash') return this._toMenu(); this.transition(() => this._toMenu()); }
+   _toMenu() {
+-    this.state = 'menu'; this.game = null;
++    this.state = 'menu'; this.game = null; this.snd.setMode('menu');
+     this.setOverlay('over', false); this.setOverlay('menu', true); this.buildMenu();
+   }
+ 
+   startGame(id) { this.transition(() => this._startGame(id)); }
+   _startGame(id) {
++    this.snd.setMode('play');
+     const def = this.games.find((g) => g.meta.id === id); if (!def) return;
+     this.snd.ensure();
+     this.gameDef = def;
+@@ -231,7 +235,7 @@ export class App {
+     const inGame = this.state === 'play' || this.state === 'countdown';
+     if (this.state === 'play' || this.state === 'countdown') {
+       // back button (canvas-drawn)
+-      if (h && h.x > 14 && h.x < 170 && h.y > 14 && h.y < 74 && !h.mouse) hit = 'back';
++      if (h && h.x > 14 && h.x < 170 * (this.hudU || 1) && h.y > 14 && h.y < 74 * (this.hudU || 1) && !h.mouse) hit = 'back';
+     } else if (h && els.length && !h.mouse) {
+       for (const { el, r } of els) { if (h.x >= r.left && h.x <= r.right && h.y >= r.top && h.y <= r.bottom) { hit = el; break; } }
+       if (hit !== this.lockEl) this.lockEl = null; else hit = null; // after a click, leave the button before it can fire again
+@@ -315,7 +319,9 @@ export class App {
+   }
+ 
+   drawHud() {
+-    const { ctx, W } = this, h = this.hud;
++    const { ctx } = this, h = this.hud;
++    const u = clamp(this.W / 760, 0.62, 1), W = this.W / u; this.hudU = u;
++    ctx.save(); ctx.scale(u, u);
+     // back pill
+     roundRect(ctx, 16, 16, 150, 54, 27); ctx.fillStyle = 'rgba(8,10,24,.7)'; ctx.fill();
+     ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 1.5; ctx.stroke();
+@@ -339,6 +345,7 @@ export class App {
+       roundRect(ctx, W - 150, ty, 134, 54, 27); ctx.fillStyle = t <= 10 ? 'rgba(255,60,90,.55)' : 'rgba(8,10,24,.6)'; ctx.fill();
+       ctx.fillStyle = '#fff'; ctx.font = '700 28px "Space Grotesk", sans-serif'; ctx.fillText(`${t}s`, W - 83, ty + 29);
+     }
++    ctx.restore();
+   }
+ 
+   heart(ctx, x, y, r, on) {
+diff --git a/src/core/audio.js b/src/core/audio.js
+index 20cb87f..0eded0c 100644
+--- a/src/core/audio.js
++++ b/src/core/audio.js
+@@ -10,8 +10,38 @@ export class Sound {
+     this.master.gain.value = this.muted ? 0 : 0.5;
+     const comp = this.ctx.createDynamicsCompressor();
+     this.master.connect(comp); comp.connect(this.ctx.destination);
++    this.music = this.ctx.createGain(); this.music.gain.value = 0.55; this.music.connect(this.master);
++    this.mode = this.mode || 'menu'; this.step = 0; this.nextT = 0;
++    this.timer = setInterval(() => this.sched(), 120);
++    document.addEventListener('visibilitychange', () => { if (!this.ctx) return; if (document.hidden) this.ctx.suspend(); else this.ctx.resume(); });
++    this.startup();
+   }
+-  setMuted(m) { this.muted = m; localStorage.setItem('camrush.mute', m ? '1' : '0'); if (this.master) this.master.gain.value = m ? 0 : 0.5; }
++  // short rising chime the first time sound is unlocked by a tap or click
++  startup() { [392, 523, 659, 784, 1046].forEach((f, i) => this.tone(f, 0.22, 'triangle', 0.18, 0, i * 0.08)); this.tone(130, 0.5, 'sine', 0.2, 60); }
++  setMode(m) { this.mode = m; }
++  // looping synth music: soft bass + arpeggio, calm in menu, faster in game
++  sched() {
++    if (!this.ctx || this.muted || this.ctx.state !== 'running') return;
++    const play = this.mode === 'play', bpm = play ? 132 : 92, sp = 60 / bpm / 2;
++    const now = this.ctx.currentTime;
++    if (this.nextT < now) this.nextT = now + 0.05;
++    const ROOTS = [110, 87.31, 130.81, 98], ARP = [0, 7, 12, 16, 12, 7, 15, 7];
++    while (this.nextT < now + 0.3) {
++      const i = this.step++, bar = Math.floor(i / 8) % 4, d = this.nextT - now;
++      const root = ROOTS[bar], semi = bar === 1 ? [0, 7, 12, 16, 12, 7, 12, 7] : ARP;
++      if (i % 4 === 0) this.mtone(root, sp * 3.6, 'triangle', play ? 0.2 : 0.16, d);
++      this.mtone(root * 4 * Math.pow(2, semi[i % 8] / 12), sp * 1.6, play ? 'square' : 'sine', play ? 0.045 : 0.07, d);
++      if (play && i % 2 === 0) this.mtone(60, 0.08, 'sine', 0.2, d, 30);
++      this.nextT += sp;
++    }
++  }
++  mtone(freq, dur, type, vol, delay, slide = 0) {
++    const t0 = this.ctx.currentTime + delay, o = this.ctx.createOscillator(), g = this.ctx.createGain();
++    o.type = type; o.frequency.setValueAtTime(freq, t0); if (slide) o.frequency.exponentialRampToValueAtTime(30, t0 + dur);
++    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
++    o.connect(g); g.connect(this.music); o.start(t0); o.stop(t0 + dur + 0.05);
++  }
++  setMuted(m) { this.muted = m; localStorage.setItem('camrush.mute', m ? '1' : '0'); if (this.master) this.master.gain.value = m ? 0 : 0.5; if (!m) this.nextT = 0; }
+   tone(freq, dur = 0.12, type = 'sine', vol = 0.3, slide = 0, delay = 0) {
+     if (!this.ctx || this.muted) return;
+     const t0 = this.ctx.currentTime + delay;
+diff --git a/src/core/input.js b/src/core/input.js
+index 20d6167..354c0dd 100644
+--- a/src/core/input.js
++++ b/src/core/input.js
+@@ -7,7 +7,7 @@ export class Input {
+     this.mode = 'camera'; // 'camera' | 'mouse'
+     canvas.addEventListener('pointermove', (e) => { const m = this.mouse; m.px = m.x; m.py = m.y; m.x = e.clientX; m.y = e.clientY; m.active = performance.now(); });
+     window.addEventListener('pointermove', (e) => { const m = this.mouse; m.px = m.x; m.py = m.y; m.x = e.clientX; m.y = e.clientY; m.active = performance.now(); });
+-    window.addEventListener('pointerdown', () => { this.mouse.down = true; });
++    window.addEventListener('pointerdown', (e) => { const m = this.mouse; m.px = e.clientX; m.py = e.clientY; m.x = e.clientX; m.y = e.clientY; m.active = performance.now(); m.down = true; });
+     window.addEventListener('pointerup', () => { this.mouse.down = false; });
+     window.addEventListener('keydown', (e) => { if (!this.keys.has(e.code)) this.pressedOnce.add(e.code); this.keys.add(e.code); });
+     window.addEventListener('keyup', (e) => { this.keys.delete(e.code); });
+diff --git a/src/style.css b/src/style.css
+index 51712f4..0742b64 100644
+--- a/src/style.css
++++ b/src/style.css
+@@ -159,3 +159,44 @@ canvas#cursor { pointer-events:none; z-index:50; }
+ .card, .grid.many .card { padding:16px 22px; }
+ .card p, .grid.many .card p { -webkit-line-clamp:2; min-height:2.8em; }
+ @media (max-height:820px) { .hero p { display:none !important; } .hero { margin:0 0 1vh; } .hero h2 { font-size:38px; } }
++
++
++/* ===== phones ===== */
++html, body { overscroll-behavior:none; }
++canvas#stage, canvas#cursor { width:100%; height:100%; touch-action:none; }
++.overlay { overflow:hidden; }
++.grid, .grid.many { grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); }
++.card, .top, .pager > * { min-width:0; }
++@media (max-width:700px) {
++  #menu { padding:12px 12px 10px; }
++  .brand { font-size:24px; } .brand em, .stat, .foot, .hero p, .pg-mid span { display:none !important; }
++  .iconbtn { width:44px; height:44px; font-size:18px; } .top-r { gap:8px; }
++  .hero { margin:6px 0 10px; } .hero h2 { font-size:30px; }
++  .grid, .grid.many { grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(3,minmax(0,1fr)); gap:12px; }
++  .card, .grid.many .card { padding:12px 14px; border-radius:20px; }
++  .card .ico, .grid.many .card .ico { width:48px; height:48px; padding:6px; border-radius:14px; }
++  .card h3, .grid.many .card h3 { font-size:20px; margin:8px 0 6px; line-height:1.1; }
++  .card p, .grid.many .card p, .pill.best { display:none; }
++  .card .meta, .grid.many .card .meta { padding-top:0; margin-top:auto; }
++  .pill, .grid.many .pill { font-size:12px; padding:5px 10px; white-space:normal; }
++  .pager { margin:12px 0 2px; gap:10px; }
++  .pager .btn { min-width:0; flex:1; font-size:19px; padding:14px 10px; border-radius:16px; }
++  .pg-mid { flex:0 0 auto; }
++  .over-card { padding:26px 22px 28px; min-width:0; width:88vw; }
++  .over-actions { flex-direction:column; gap:12px; } .btn.big { font-size:21px; padding:16px 22px; }
++  .wordmark { font-size:60px; } .tag { font-size:16px; margin-bottom:26px; } .fine { margin-top:22px; }
++}
++@media (max-height:520px) and (orientation:landscape) {
++  #menu { padding:8px 14px 8px; }
++  .brand { font-size:22px; } .brand em, .stat, .foot, .hero { display:none !important; }
++  .iconbtn { width:40px; height:40px; font-size:16px; }
++  .grid, .grid.many { gap:10px; margin-top:8px; }
++  .card, .grid.many .card { padding:10px 14px; border-radius:18px; }
++  .card .ico, .grid.many .card .ico { width:36px; height:36px; padding:4px; border-radius:11px; position:absolute; top:10px; right:12px; }
++  .card h3, .grid.many .card h3 { font-size:20px; margin:0 0 4px; padding-right:44px; }
++  .card p, .grid.many .card p, .pill.best { display:none; }
++  .pill, .grid.many .pill { font-size:12px; padding:4px 9px; }
++  .pager { margin:8px 0 0; } .pager .btn { min-width:0; padding:8px 18px; font-size:18px; } .pg-mid span { display:none; }
++  .over-card { padding:16px 28px 20px; } .over-score { font-size:72px; } .over-actions { margin-top:12px; } .btn.big { font-size:19px; padding:10px 20px; }
++  .wordmark { font-size:48px; margin:4px 0; } .tag { margin-bottom:14px; } .fine { margin-top:10px; } .logo-mark { display:none; }
++}
 -- 
 2.34.1
 
