@@ -1,0 +1,45 @@
+{
+"target": {
+ "red": "Shooting Gallery/Objects/target_red2.png",
+ "gold": "Shooting Gallery/Objects/target_colored.png",
+ "duck": "Shooting Gallery/Objects/duck_yellow.png",
+ "cross": "Shooting Gallery/HUD/crosshair_blue_large.png",
+ "wood": "Shooting Gallery/Stall/bg_wood.png",
+ "curtain": "Shooting Gallery/Stall/curtain.png",
+ "valance": "Shooting Gallery/Stall/curtain_top.png",
+ "water": "Shooting Gallery/Stall/water1.png"
+},
+"flap": {
+ "plane1": "Tappy Plane/Planes/planeYellow1.png",
+ "plane2": "Tappy Plane/Planes/planeYellow2.png",
+ "plane3": "Tappy Plane/Planes/planeYellow3.png",
+ "rockUp": "Tappy Plane/rockGrass.png",
+ "rockDown": "Tappy Plane/rockGrassDown.png",
+ "ground": "Tappy Plane/groundGrass.png",
+ "puff": "Tappy Plane/puffLarge.png",
+ "star": "Tappy Plane/starGold.png"
+},
+"blaster": {
+ "ship": "Space Shooter Remastered/playerShip1_blue.png",
+ "e1": "Space Shooter Remastered/Enemies/enemyRed1.png",
+ "e2": "Space Shooter Remastered/Enemies/enemyBlack2.png",
+ "e3": "Space Shooter Remastered/Enemies/enemyGreen3.png",
+ "e4": "Space Shooter Remastered/Enemies/enemyBlue4.png",
+ "ast1": "Space Shooter Remastered/Meteors/meteorBrown_big1.png",
+ "ast2": "Space Shooter Remastered/Meteors/meteorGrey_big3.png",
+ "laser": "Space Shooter Remastered/Lasers/laserBlue02.png",
+ "elaser": "Space Shooter Remastered/Lasers/laserRed08.png",
+ "shield": "Space Shooter Remastered/Effects/shield2.png",
+ "bg": "Space Shooter Remastered/Backgrounds/darkPurple.png"
+},
+"dodge": {
+ "ship": "Space Shooter Remastered/playerShip3_orange.png",
+ "m1": "Space Shooter Remastered/Meteors/meteorBrown_big1.png",
+ "m2": "Space Shooter Remastered/Meteors/meteorBrown_big2.png",
+ "m3": "Space Shooter Remastered/Meteors/meteorGrey_big3.png",
+ "m4": "Space Shooter Remastered/Meteors/meteorGrey_big4.png",
+ "star": "Space Shooter Remastered/Power-ups/star_gold.png",
+ "shield": "Space Shooter Remastered/Effects/shield3.png",
+ "bg": "Space Shooter Remastered/Backgrounds/purple.png"
+}
+}
