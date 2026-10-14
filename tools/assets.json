@@ -1,0 +1,146 @@
+{
+ "target": {
+  "red": "Shooting Gallery/Objects/target_red2.png",
+  "gold": "Shooting Gallery/Objects/target_colored.png",
+  "duck": "Shooting Gallery/Objects/duck_yellow.png",
+  "cross": "Shooting Gallery/HUD/crosshair_blue_large.png",
+  "wood": "Shooting Gallery/Stall/bg_wood.png",
+  "curtain": "Shooting Gallery/Stall/curtain.png",
+  "valance": "Shooting Gallery/Stall/curtain_top.png",
+  "water": "Shooting Gallery/Stall/water1.png"
+ },
+ "flap": {
+  "plane1": "Tappy Plane/Planes/planeYellow1.png",
+  "plane2": "Tappy Plane/Planes/planeYellow2.png",
+  "plane3": "Tappy Plane/Planes/planeYellow3.png",
+  "rockUp": "Tappy Plane/rockGrass.png",
+  "rockDown": "Tappy Plane/rockGrassDown.png",
+  "ground": "Tappy Plane/groundGrass.png",
+  "puff": "Tappy Plane/puffLarge.png",
+  "star": "Tappy Plane/starGold.png"
+ },
+ "blaster": {
+  "ship": "Space Shooter Remastered/playerShip1_blue.png",
+  "e1": "Space Shooter Remastered/Enemies/enemyRed1.png",
+  "e2": "Space Shooter Remastered/Enemies/enemyBlack2.png",
+  "e3": "Space Shooter Remastered/Enemies/enemyGreen3.png",
+  "e4": "Space Shooter Remastered/Enemies/enemyBlue4.png",
+  "ast1": "Space Shooter Remastered/Meteors/meteorBrown_big1.png",
+  "ast2": "Space Shooter Remastered/Meteors/meteorGrey_big3.png",
+  "laser": "Space Shooter Remastered/Lasers/laserBlue02.png",
+  "elaser": "Space Shooter Remastered/Lasers/laserRed08.png",
+  "shield": "Space Shooter Remastered/Effects/shield2.png",
+  "bg": "Space Shooter Remastered/Backgrounds/darkPurple.png"
+ },
+ "dodge": {
+  "ship": "Space Shooter Remastered/playerShip3_orange.png",
+  "m1": "Space Shooter Remastered/Meteors/meteorBrown_big1.png",
+  "m2": "Space Shooter Remastered/Meteors/meteorBrown_big2.png",
+  "m3": "Space Shooter Remastered/Meteors/meteorGrey_big3.png",
+  "m4": "Space Shooter Remastered/Meteors/meteorGrey_big4.png",
+  "star": "Space Shooter Remastered/Power-ups/star_gold.png",
+  "shield": "Space Shooter Remastered/Effects/shield3.png",
+  "bg": "Space Shooter Remastered/Backgrounds/purple.png"
+ },
+ "fruit": {
+  "w_watermelon": "_render/w_watermelon.png",
+  "w_pear": "_render/w_pear.png",
+  "c_apple": "_render/c_apple.png",
+  "w_strawberry": "_render/w_strawberry.png",
+  "bomb": "_render/bomb.png",
+  "c_lemon": "_render/c_lemon.png",
+  "w_pineapple": "_render/w_pineapple.png",
+  "w_apple": "_render/w_apple.png",
+  "c_pear": "_render/c_pear.png",
+  "w_lemon": "_render/w_lemon.png",
+  "w_orange": "_render/w_orange.png"
+ },
+ "keeper": {
+  "ball": "Sports Pack/Equipment/ball_soccer2.png",
+  "gold": "Sports Pack/Equipment/ball_basket2.png"
+ },
+ "pong": {
+  "ball": "Sports Pack/Equipment/ball_soccer2.png"
+ },
+ "mole": {
+  "monkey": "Animal Pack/Round/monkey.png",
+  "panda": "Animal Pack/Round/panda.png",
+  "pig": "Animal Pack/Round/pig.png",
+  "rabbit": "Animal Pack/Round/rabbit.png",
+  "hippo": "Animal Pack/Round/hippo.png",
+  "giraffe": "Animal Pack/Round/giraffe.png",
+  "bomb": "_render/bomb.png"
+ },
+ "chomp": {
+  "burger": "_render/f_burger.png",
+  "cake": "_render/f_cake.png",
+  "donut": "_render/f_donut.png",
+  "fries": "_render/f_fries.png",
+  "pizza": "_render/f_pizza.png",
+  "taco": "_render/f_taco.png",
+  "apple": "_render/w_apple.png",
+  "bomb": "_render/bomb.png"
+ },
+ "bricks": {
+  "red": "Puzzle Pack 1/element_red_rectangle_glossy.png",
+  "yellow": "Puzzle Pack 1/element_yellow_rectangle_glossy.png",
+  "green": "Puzzle Pack 1/element_green_rectangle_glossy.png",
+  "blue": "Puzzle Pack 1/element_blue_rectangle_glossy.png",
+  "purple": "Puzzle Pack 1/element_purple_rectangle_glossy.png",
+  "grey": "Puzzle Pack 1/element_grey_rectangle_glossy.png",
+  "paddle": "Puzzle Pack 2/Paddles/paddle_02.png",
+  "ball": "Puzzle Pack 1/ballGrey.png"
+ },
+ "snake": {
+  "head": "Animal Pack Remastered/Round without details/snake.png",
+  "apple": "_render/w_apple.png",
+  "gold": "_render/c_lemon.png"
+ },
+ "stack": {
+  "red": "Puzzle Pack 1/element_red_rectangle_glossy.png",
+  "yellow": "Puzzle Pack 1/element_yellow_rectangle_glossy.png",
+  "green": "Puzzle Pack 1/element_green_rectangle_glossy.png",
+  "blue": "Puzzle Pack 1/element_blue_rectangle_glossy.png",
+  "purple": "Puzzle Pack 1/element_purple_rectangle_glossy.png"
+ },
+ "beats": {
+  "n0": "Puzzle Pack 1/element_red_diamond_glossy.png",
+  "n1": "Puzzle Pack 1/element_yellow_square_glossy.png",
+  "n2": "Puzzle Pack 1/element_green_polygon_glossy.png",
+  "n3": "Puzzle Pack 1/element_blue_diamond_glossy.png"
+ },
+ "rps": {
+  "rock": "_render/r_rock.png",
+  "paper": "_render/r_paper.png",
+  "scissors": "_render/r_scissors.png"
+ },
+ "juggle": {
+  "b0": "_render/j_b0.png",
+  "b1": "_render/j_b1.png",
+  "b2": "_render/j_b2.png",
+  "b3": "_render/j_b3.png",
+  "b4": "_render/j_b4.png",
+  "b5": "_render/j_b5.png",
+  "b6": "_render/j_b6.png"
+ },
+ "bubbles": {
+  "b0": "_render/pb0.png",
+  "b1": "_render/pb1.png",
+  "b2": "_render/pb2.png",
+  "b3": "_render/pb3.png",
+  "b4": "_render/pb4.png",
+  "b5": "_render/pb5.png",
+  "bomb": "_render/bomb.png",
+  "gold": "_render/pb_gold.png"
+ },
+ "lean": {
+  "player": "_render/l_player.png",
+  "o1": "_render/l_o1.png",
+  "o2": "_render/l_o2.png",
+  "o3": "_render/l_o3.png",
+  "o4": "_render/l_o4.png",
+  "o5": "_render/l_o5.png",
+  "cone": "_render/l_cone.png",
+  "coin": "_render/l_coin.png"
+ }
+}
